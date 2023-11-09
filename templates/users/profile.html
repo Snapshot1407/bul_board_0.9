@@ -1,8 +1,8 @@
-{% extends 'products/base.html' %}
+{% extends 'apps/base.html' %}
 {% load static %}
 
 {% block css %}
-    <link href="{% static 'vendor/css/profile.css' %}" rel="stylesheet">
+    <link href="{% static 'css/profile.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -61,7 +61,9 @@
                 </form>
             </div>
             <div class="col-lg-5">
-                {% include 'products/baskets.html' %}
+                {% for post in post_list %}
+                {{ post.title }}
+                {% endfor %}
             </div>
         </div>
     </div>

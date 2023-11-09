@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'apps',
     'contact',
     'snowpenguin.django.recaptcha3',
-    # 'users',
+    'users',
 
     'allauth',
     'allauth.account',
@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.vk',
 ]
 
+AUTH_USER_MODEL = 'users.User'
+DOMAIN_NAME = 'http://127.0.0.1:8000/'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -241,18 +243,18 @@ ACCOUNT_FORMS = {'signup': 'sign.forms.BasicSignupForm'}
 
 EMAIL_HOST = 'smtp.yandex.ru'  # адрес сервера Яндекс-почты для всех один и тот же
 EMAIL_PORT = 465  # порт smtp сервера тоже одинаковый
-EMAIL_HOST_USER = 'Sailersnap'  # ваше имя пользователя, например, если ваша почта user@yandex.ru, то сюда надо писать user, иными словами, это всё то что идёт до собаки
+EMAIL_HOST_USER = 'Sailersnap@yandex.ru'  # ваше имя пользователя, например, если ваша почта user@yandex.ru, то сюда надо писать user, иными словами, это всё то что идёт до собаки
 EMAIL_HOST_PASSWORD = 'Snapshot1407'  # пароль от почты
 EMAIL_USE_SSL = True  # Яндекс использует ssl, подробнее о том, что это, почитайте в дополнительных источниках, но включать его здесь обязательно
+SERVER_EMAIL = EMAIL_HOST_USER
 
-
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER + '@yandex.ru'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 MANAGERS = [
     ('sailersnap','sailersnap@mail.ru'),
 ]
 
-SERVER_EMAIL = 'sailersnap@yandex.ru'
+
 ADMINS = [
     ('sailersnap', 'sailersnap@mail.ru'),
     # список всех админов в формате ('имя', 'их почта')
@@ -267,3 +269,4 @@ CELERY_RESULT_SERIALIZER = 'json'
 
 CELERY_TASK_ALWAYS_EAGER = True
 CELERY_TASK_EAGER_PROPAGATES = True
+

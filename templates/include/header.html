@@ -29,17 +29,45 @@
                 </li>
                 <li>
                     {% if user.is_authenticated %}
-                        <span>{{ user.username }}</span>
-                        <a href="{% url 'account_logout' %}"
-                           style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">
-                            Выход
+
+                        <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>{{ user.username }}</span>
+
                         </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'users:profile' user.id %}">Профиль</a>
+                            </li>
+                            {% if user.is_superuser or user.is_staff %}
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'admin:index' %}">
+                                        Админ-панель
+                                    </a>
+                                </li>
+                            {% endif %}
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'post_create' %}">
+                                    Создать объявление
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'account_logout' %}">
+                                    Выйти
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     {% else %}
-                        <a href="{% url 'account_login' %}"
+                        <a href="{% url 'users:login' %}"
                            style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">
                             Вход
                         </a>
-                         <a href="{% url 'account_signup' %}"
+                         <a href="{% url 'users:registration' %}"
                            style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">
                             Регистрация
                         </a>

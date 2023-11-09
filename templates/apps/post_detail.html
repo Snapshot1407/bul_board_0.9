@@ -27,16 +27,13 @@
                     </li>
 
                     <li style="list-style: none"><span><b>{% trans 'Автор' %}:</b>
-                            <a href="{{ author.get_absolute_url }}">
                                     {{ post.author.name }}
                             </a>
-                        {% endfor %}
+
                                 </span>
                     </li>
-                    <li style="list-style: none"><span><b>{% trans 'Класс' %}:</b>
-                        {% for class in post.ClassMMORPG.all %}
-                            {{ class.name }}
-                        {% endfor %}
+                    <li style="list-style: none"><span><b>{% trans 'Категория' %}:</b>
+                        {{ post.category }}
                                     </span>
                     </li>
 
@@ -86,7 +83,7 @@
         <div class="row sub-para-w3layouts mt-5">
 
             <h3 class="shop-sing editContent">
-                {% trans 'О фильме'  %} {{ post.title }}
+                {% trans 'О'  %} {{ post.title }}
             </h3>
             <p>
                 {% for image in post.postshots_set.all %}

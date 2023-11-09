@@ -13,6 +13,14 @@ class PostAdminForm(forms.ModelForm):
         model = Post
         fields = '__all__'
 
+
+class PostForm(forms.ModelForm):
+    """Форма с виджетом ckeditor"""
+    description = forms.CharField(label="Описание", widget=CKEditorUploadingWidget())
+    class Meta:
+        model = Post
+        fields = ('title', 'tagline', 'description', 'author', 'class_MMORPG', 'category', 'draft')
+
 class ReviewForm(forms.ModelForm):
     """Форма отзывов"""
     captcha = ReCaptchaField()

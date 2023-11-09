@@ -18,7 +18,7 @@ class Category(models.Model):
 
 
 class Author(models.Model):
-    """Актеры и режиссеры"""
+    """Авторы"""
     name = models.CharField("Имя", max_length=100)
     age = models.PositiveSmallIntegerField("Возраст", default=0)
     image = models.ImageField("Изображение", upload_to="actors/")
@@ -35,7 +35,7 @@ class Author(models.Model):
 
 
 class ClassMMORPG(models.Model):
-    """Жанры"""
+    """Классы"""
     name = models.CharField("Имя", max_length=100)
     description = models.TextField("Описание")
     url = models.SlugField(max_length=160, unique=True)
@@ -49,13 +49,13 @@ class ClassMMORPG(models.Model):
 
 
 class Post(models.Model):
-    """Фильм"""
+    """Пост"""
     title = models.CharField("Название", max_length=100)
     tagline = models.CharField("Слоган", max_length=100, default='')
     description = models.TextField("Описание")
     poster = models.ImageField("Постер", upload_to="apps/")
-    author = models.ForeignKey(Author, verbose_name="автор",related_name="post_author",on_delete=models.CASCADE)
-    class_MMORPG = models.ManyToManyField(ClassMMORPG, verbose_name="классы")
+    author = models.ForeignKey(Author, verbose_name="Автор",related_name="post_author",on_delete=models.CASCADE)
+    class_MMORPG = models.ForeignKey(ClassMMORPG, verbose_name="Классы", on_delete=models.SET_NULL, null=True)
     category = models.ForeignKey(
         Category, verbose_name="Категория", on_delete=models.SET_NULL, null=True
     )
@@ -108,7 +108,7 @@ class Rating(models.Model):
     """Рейтинг"""
     ip = models.CharField("IP адрес", max_length=15)
     star = models.ForeignKey(RatingStar, on_delete=models.CASCADE, verbose_name="звезда")
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, verbose_name="фильм", related_name="ratings")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, verbose_name="Объявление", related_name="ratings")
 
     def __str__(self):
         return f"{self.star} - {self.post}"
@@ -126,7 +126,7 @@ class Reviews(models.Model):
     parent = models.ForeignKey(
         'self', verbose_name="Родитель", on_delete=models.SET_NULL, blank=True, null=True
     )
-    post = models.ForeignKey(Post, verbose_name="объявление", on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, verbose_name="Объявление", on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.name} - {self.post}"

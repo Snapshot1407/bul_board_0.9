@@ -1,19 +1,20 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Q
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import redirect
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.views.generic.base import View
+from django.urls import reverse_lazy
 
-
-from .models import Post, Category, Author, ClassMMORPG, Rating, Reviews
-from .forms import ReviewForm, RatingForm
-
+from .models import Post, Category, Author, ClassMMORPG, Rating
+from .forms import ReviewForm, RatingForm, PostAdminForm, PostForm
+from .tasks import send_email_task
 
 
 
 
 class GenreСategory:
-    """Жанры объявлений"""
+    """Классы и категории"""
 
     def get_ClassMMORPG(self):
         return ClassMMORPG.objects.all()
@@ -50,6 +51,68 @@ class PostDetailView(GenreСategory, DetailView):
         context["form"] = ReviewForm()
         return context
 
+
+class PostCreate(CreateView, LoginRequiredMixin):
+    permission_required = ('post.add_post',)
+
+    form_class = PostForm
+    context_object_name = 'post_create'
+    model = Post
+    template_name = 'apps/post_edit.html'
+    success_url = reverse_lazy('posts_list')
+
+    def form_valid(self, form):
+        board = super().form_valid(form)
+        post = form.save(commit=False)
+        if self.request.method == 'POST':
+            form = PostAdminForm(self.request.POST)
+            if form.is_valid():
+                form.save()
+                return board
+        else:
+            form = PostAdminForm()
+            context = {
+                'form': form
+            }
+
+        post.save()
+        send_email_task.delay(post.pk)
+        return super().form_valid(form)
+
+
+class PostUpdate(UpdateView, PermissionRequiredMixin, LoginRequiredMixin):
+    permission_required = ('post.change_post',)
+
+    form_class = PostForm
+    context_object_name = 'post_update'
+    model = Post
+    template_name = 'apps/post_edit.html'
+    success_url = reverse_lazy('posts_list')
+
+    def form_valid(self, form):
+        p = super().form_valid(form)
+        post = form.save(commit=False)
+        if self.request.method == 'POST':
+            form = PostAdminForm(self.request.POST)
+            if form.is_valid():
+                form.save()
+                return p
+        else:
+            form = PostAdminForm()
+            context = {
+                'form': form
+            }
+
+        post.save()
+        send_email_task.delay(post.slug)
+        return super().form_valid(form)
+
+class PostDelete(DeleteView, PermissionRequiredMixin, LoginRequiredMixin):
+    permission_required = ('post.delete_post',)
+
+    model = Post
+    template_name = 'board/post_confirm_delete.html'
+    success_url = reverse_lazy('post_list')
 
 class AddReview(View):
     """Отзывы"""

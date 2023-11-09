@@ -13,4 +13,8 @@ urlpatterns = [
     path("review/<int:pk>/", views.AddReview.as_view(), name="add_review"),
     path("author/<str:slug>/", views.AuthorView.as_view(), name="author_detail"),
 
+    path('post/add/', views.PostCreate.as_view(), name='post_create'),
+    path('<slug:slug>/edit/', views.PostUpdate.as_view(), name='post_edit'),
+    path('<slug:slug>/delete/', views.PostDelete.as_view(), name='post_delete'),
+
 ]
