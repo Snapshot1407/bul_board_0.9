@@ -1,0 +1,99 @@
+{% load post_tag %}
+<div class="search-bar w3layouts-newsletter">
+    <h3 class="sear-head editContent">Поиск фильма</h3>
+    <form action="{% url 'search' %}" method="get" class="d-flex editContent">
+        <input type="search" placeholder="Введите название..." name="q" class="form-control" required="">
+        <button type="submit" class="btn1 btn">
+            <span class="fa fa-search" aria-hidden="true"></span>
+        </button>
+    </form>
+</div>
+<!--preference -->
+<form action="{% url 'filter' %}" method="get" name="filter">
+    <div class="left-side my-4">
+        <h3 class="sear-head editContent">Классы</h3>
+        <ul class="w3layouts-box-list">
+            {% for class in view.get_ClassMMORPG %}
+                <li class="editContent">
+                    <input type="checkbox" class="checked" name="ClassMMORPG" value="{{ ClassMMORPG.id }}">
+                    <span class="span editContent">{{ class.name }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+
+    </div>
+    <!-- // preference -->
+    <!-- discounts -->
+
+    <div class="left-side">
+        <h3 class="sear-head editContent">Категории</h3>
+        <ul class="w3layouts-box-list">
+            {% for categor in view.get_category %}
+                <li class="editContent">
+                    <input type="checkbox" class="checked" name="category" value="{{ categor.name }}">
+                    <span class="span editContent">{{ categor.name }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <button type="submit">Найти</button>
+</form>
+<!-- //discounts -->
+<!-- reviews -->
+<div class="customer-rev left-side my-4">
+    <h3 class="sear-head editContent">Рейтинг</h3>
+    <ul class="w3layouts-box-list">
+        <li>
+            <a href="#">
+                <span class="fa fa-star" aria-hidden="true"></span>
+                <span class="fa fa-star" aria-hidden="true"></span>
+                <span class="fa fa-star" aria-hidden="true"></span>
+                <span class="fa fa-star" aria-hidden="true"></span>
+                <span class="fa fa-star" aria-hidden="true"></span>
+                <span class="editContent">5.0</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span class="fa fa-star" aria-hidden="true"></span>
+                <span class="fa fa-star" aria-hidden="true"></span>
+                <span class="fa fa-star" aria-hidden="true"></span>
+                <span class="fa fa-star" aria-hidden="true"></span>
+                <span class="fa fa-star-o" aria-hidden="true"></span>
+                <span class="editContent">4.0</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span class="fa fa-star" aria-hidden="true"></span>
+                <span class="fa fa-star" aria-hidden="true"></span>
+                <span class="fa fa-star" aria-hidden="true"></span>
+                <span class="fa fa-star-half-o" aria-hidden="true"></span>
+                <span class="fa fa-star-o" aria-hidden="true"></span>
+                <span class="editContent">3.5</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span class="fa fa-star" aria-hidden="true"></span>
+                <span class="fa fa-star" aria-hidden="true"></span>
+                <span class="fa fa-star" aria-hidden="true"></span>
+                <span class="fa fa-star-o" aria-hidden="true"></span>
+                <span class="fa fa-star-o" aria-hidden="true"></span>
+                <span class="editContent">3.0</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span class="fa fa-star" aria-hidden="true"></span>
+                <span class="fa fa-star" aria-hidden="true"></span>
+                <span class="fa fa-star-half-o" aria-hidden="true"></span>
+                <span class="fa fa-star-o" aria-hidden="true"></span>
+                <span class="fa fa-star-o" aria-hidden="true"></span>
+                <span class="editContent">2.5</span>
+            </a>
+        </li>
+    </ul>
+</div>
+{% get_last_post count=3 %}
+

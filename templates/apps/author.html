@@ -1,0 +1,33 @@
+{% extends 'apps/base.html' %}
+{% load static %}
+{% block title %} {{ actor.name }} {% endblock title %}
+{% block container %}
+    <div class="container py-md-3">
+{% endblock container %}
+
+{% block sidebar %}
+    <div class="side-bar col-lg-4">
+{% endblock sidebar %}
+
+{% block post %}
+    <div class="left-ads-display col-lg-8">
+        <div class="row">
+            <div class="desc1-left col-md-6">
+                <img src="{{ actor.image.url }}" class="img-fluid" alt="">
+            </div>
+            <div class="desc1-right col-md-6 pl-lg-4">
+                <h3 class="editContent">
+                    {{ post.title }}
+                </h3>
+            </div>
+        </div>
+        <div class="row sub-para-w3layouts mt-5">
+            <h3 class="shop-sing editContent">
+                О {{ author.name }}
+            </h3>
+            <p class="editContent">
+                <span><b>Возраст:</b> {{ author.age }} лет</span></li>
+            </p>
+        </div>
+    </div>
+{% endblock post %}
